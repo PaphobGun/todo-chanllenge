@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import uniqid from 'uniqid';
 
 import { clearLogs } from '../actions';
 
@@ -17,9 +18,11 @@ class History extends Component {
 
   renderLogs = () => {
     return this.props.logs.reverse().map(todo => {
+      const { id, lastUpdated, action, todoList } = todo;
+
       return (
-        <div key={todo.lastUpdated + Math.random()}>
-          {todo.lastUpdated} | {todo.action} | {todo.todoList}
+        <div key={id + uniqid()}>
+          {lastUpdated} | {action} | {todoList}
         </div>
       );
     });

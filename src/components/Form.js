@@ -4,6 +4,8 @@ import { addList } from '../actions';
 import styled from 'styled-components';
 import uniqid from 'uniqid';
 
+import { calcTime } from '../utils/calcTime';
+
 const Outer = styled.div`
   margin: 2rem 2rem;
 `;
@@ -24,23 +26,6 @@ class Form extends Component {
     list: ''
   };
 
-  addZero = time => {
-    if (time < 10) time = '0' + time;
-    return time;
-  };
-
-  calcTime = () => {
-    const today = new Date();
-    const d = this.addZero(today.getDate());
-    const m = this.addZero(today.getMonth());
-    const y = this.addZero(today.getFullYear());
-    const h = this.addZero(today.getHours());
-    const min = this.addZero(today.getMinutes());
-    const sec = this.addZero(today.getSeconds());
-
-    return `${d}/${m}/${y} ${h}:${min}:${sec}`;
-  };
-
   onSubmit = e => {
     e.preventDefault();
 
@@ -48,7 +33,7 @@ class Form extends Component {
       id: uniqid(),
       todoList: this.state.list,
       action: 'todo',
-      lastUpdated: this.calcTime()
+      lastUpdated: calcTime()
     };
 
     this.props.addList(list);

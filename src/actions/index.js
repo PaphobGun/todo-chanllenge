@@ -1,6 +1,5 @@
 import {
   ADD_LIST,
-  TOGGLE_LIST,
   EDIT_LIST,
   CLEAR_LOGS,
   DEL_LIST,
@@ -15,12 +14,12 @@ export const addList = list => {
   };
 };
 
-export const toggleList = list => {
-  return {
-    type: TOGGLE_LIST,
-    payload: list
-  };
-};
+// export const toggleList = list => {
+//   return {
+//     type: TOGGLE_LIST,
+//     payload: list
+//   };
+// };
 
 export const editList = list => {
   return {

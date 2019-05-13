@@ -1,7 +1,6 @@
 import {
   ADD_LIST,
   EDIT_LIST,
-  TOGGLE_LIST,
   DEL_LIST,
   CLEAR_LOGS,
   TO_TODO,

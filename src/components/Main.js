@@ -11,6 +11,11 @@ const Outer = styled.div`
   padding: 5rem;
 `;
 
+const Type = styled.div`
+  margin-bottom: 1rem;
+  font-size: 2rem;
+`;
+
 class Main extends Component {
   renderTodoList = () => {
     return this.props.todo.map(todo => {
@@ -34,9 +39,9 @@ class Main extends Component {
           </h2>
         </div>
         <Form label="Add List" type="text" />
-        <h1>Todo</h1>
+        <Type>Todo</Type>
         {this.renderTodoList()}
-        <h1>Completed</h1>
+        <Type>Completed</Type>
         {this.renderCompletedList()}
       </Outer>
     );
