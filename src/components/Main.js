@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -11,42 +11,51 @@ const Outer = styled.div`
   padding: 5rem;
 `;
 
+const HeadTodo = styled.h1`
+  margin-bottom: 1rem;
+`;
+
 const Type = styled.div`
   margin-bottom: 1rem;
+  ${props => props.mt && 'margin-top: 1.5rem;'}
   font-size: 2rem;
 `;
 
-class Main extends Component {
-  renderTodoList = () => {
-    return this.props.todo.map(todo => {
+const LinkToHistory = styled(Link)`
+  padding: 0.5rem 1rem;
+  border: 2px solid black;
+  text-decoration: none;
+`;
+
+const Main = ({ todo, completed }) => {
+  const renderTodoList = () => {
+    return todo.map(todo => {
       return <List isTodo key={todo.id} todo={todo} />;
     });
   };
 
-  renderCompletedList = () => {
-    return this.props.completed.map(list => {
+  const renderCompletedList = () => {
+    return completed.map(list => {
       return <List key={list.id} todo={list} />;
     });
   };
 
-  render() {
-    return (
-      <Outer>
-        <h1>To-Do</h1>
-        <div>
-          <h2>
-            <Link to="/history">Go To History</Link>
-          </h2>
-        </div>
-        <Form label="Add List" type="text" />
-        <Type>Todo</Type>
-        {this.renderTodoList()}
-        <Type>Completed</Type>
-        {this.renderCompletedList()}
-      </Outer>
-    );
-  }
-}
+  return (
+    <Outer>
+      <HeadTodo>To-Do</HeadTodo>
+      <div>
+        <h2>
+          <LinkToHistory to="/history">Go To History</LinkToHistory>
+        </h2>
+      </div>
+      <Form label="Add List" type="text" />
+      <Type>Todo</Type>
+      {renderTodoList()}
+      <Type mt>Completed</Type>
+      {renderCompletedList()}
+    </Outer>
+  );
+};
 
 const mapStateToProps = state => {
   const { todos, completed } = state.todo;

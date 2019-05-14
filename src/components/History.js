@@ -1,48 +1,62 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import uniqid from 'uniqid';
 
 import { clearLogs } from '../actions';
+import Button from './Button';
 
 const Outer = styled.div`
   text-align: center;
   padding: 5rem;
 `;
 
-class History extends Component {
-  clearHistory = () => {
-    this.props.clearLogs();
+const HeadHistory = styled.h1`
+  margin-bottom: 1rem;
+`;
+
+const LinkToMain = styled(Link)`
+  padding: 0.5rem 1rem;
+  border: 2px solid black;
+  text-decoration: none;
+`;
+
+const LogWrapper = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const History = ({ clearLogs, logs }) => {
+  const clearHistory = () => {
+    clearLogs();
   };
 
-  renderLogs = () => {
-    return this.props.logs.reverse().map(todo => {
+  const renderLogs = () => {
+    return logs.reverse().map(todo => {
       const { id, lastUpdated, action, todoList } = todo;
 
       return (
-        <div key={id + uniqid()}>
+        <LogWrapper key={id + uniqid()}>
           {lastUpdated} | {action} | {todoList}
-        </div>
+        </LogWrapper>
       );
     });
   };
 
-  render() {
-    return (
-      <Outer>
-        <h1>History</h1>
-        <div>
-          <h2>
-            <Link to="/">Back To Main</Link>
-          </h2>
-        </div>
-        {this.renderLogs()}
-        <button onClick={this.clearHistory}>Clear History</button>
-      </Outer>
-    );
-  }
-}
+  return (
+    <Outer>
+      <HeadHistory>History</HeadHistory>
+      <div>
+        <h2>
+          <LinkToMain to="/">Back To Main</LinkToMain>
+        </h2>
+      </div>
+      {renderLogs()}
+      <Button onClickProp={clearHistory} text="Clear History" />
+    </Outer>
+  );
+};
 
 const mapStateToProps = state => {
   return {

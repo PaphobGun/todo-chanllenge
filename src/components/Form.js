@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addList } from '../actions';
 import styled from 'styled-components';
@@ -17,50 +17,47 @@ const MyForm = styled.form`
 `;
 
 const Input = styled.input`
+  padding: 0.5rem 1rem;
   margin-top: 1rem;
-  width: 50%;
+  border-radius: 5px;
+  width: 30%;
+  outline: none;
+  &:focus {
+    border: 2px solid green;
+  }
 `;
 
-class Form extends Component {
-  state = {
-    list: ''
-  };
+const Form = ({ addList, label, type }) => {
+  const [list, setList] = useState('');
 
-  onSubmit = e => {
+  const onSubmitAdd = e => {
     e.preventDefault();
 
-    const list = {
+    const newList = {
       id: uniqid(),
-      todoList: this.state.list,
-      action: 'todo',
+      todoList: list,
+      action: 'Added to todo',
       lastUpdated: calcTime()
     };
 
-    this.props.addList(list);
-    this.setState({
-      list: ''
-    });
+    addList(newList);
+    // clear input field
+    setList('');
   };
 
-  onChange = e => {
-    this.setState({
-      list: e.target.value
-    });
-  };
-
-  render() {
-    const { label, type } = this.props;
-
-    return (
-      <Outer>
-        <MyForm onSubmit={this.onSubmit}>
-          <label>{label}</label>
-          <Input onChange={this.onChange} value={this.state.list} type={type} />
-        </MyForm>
-      </Outer>
-    );
-  }
-}
+  return (
+    <Outer>
+      <MyForm onSubmit={onSubmitAdd}>
+        <label>{label}</label>
+        <Input
+          onChange={e => setList(e.target.value)}
+          value={list}
+          type={type}
+        />
+      </MyForm>
+    </Outer>
+  );
+};
 
 const mapStateToProps = state => {
   return {
