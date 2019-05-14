@@ -5,5 +5,5 @@
 
 // allow alphanumeric and space between word but not at first index
 export const isValid = inputValue => {
-  return inputValue.match(/^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$/);
+  return inputValue.match(/^[a-zA-Z0-9ก-ฮ_]+( [a-zA-Z0-9ก-ฮ_]+)*$/);
 };
