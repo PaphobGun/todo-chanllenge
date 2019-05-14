@@ -27,23 +27,19 @@ const LogWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
+const renderLogs = logs => {
+  return logs.map(todo => {
+    const { id, lastUpdated, action, todoList } = todo;
+
+    return (
+      <LogWrapper key={id + uniqid()}>
+        {lastUpdated} | {action} | {todoList}
+      </LogWrapper>
+    );
+  });
+};
+
 const History = ({ clearLogs, logs }) => {
-  const clearHistory = () => {
-    clearLogs();
-  };
-
-  const renderLogs = () => {
-    return logs.reverse().map(todo => {
-      const { id, lastUpdated, action, todoList } = todo;
-
-      return (
-        <LogWrapper key={id + uniqid()}>
-          {lastUpdated} | {action} | {todoList}
-        </LogWrapper>
-      );
-    });
-  };
-
   return (
     <Outer>
       <HeadHistory>History</HeadHistory>
@@ -52,8 +48,8 @@ const History = ({ clearLogs, logs }) => {
           <LinkToMain to="/">Back To Main</LinkToMain>
         </h2>
       </div>
-      {renderLogs()}
-      <Button onClickProp={clearHistory} text="Clear History" />
+      {renderLogs(logs)}
+      <Button onClickProp={clearLogs} text="Clear History" />
     </Outer>
   );
 };

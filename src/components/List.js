@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 
 import { editList, delList, toTodoList, toCompleted } from '../actions';
 import { calcTime } from '../utils/calcTime';
+import { isValid } from '../utils/regExp';
 import Button from './Button';
 
 const List = ({ todo, isTodo, toTodoList, toCompleted, editList, delList }) => {
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(todo.todoList);
+  const [err, setErr] = useState('');
 
   const changeToTodo = () => {
     const list = {
@@ -49,8 +51,15 @@ const List = ({ todo, isTodo, toTodoList, toCompleted, editList, delList }) => {
       lastUpdated: calcTime()
     };
 
+    if (!isValid(value)) {
+      return setErr(
+        'Input must be Alphanumeric and cannot be empty or begin with space or more than one space between word'
+      );
+    }
+
     editList(updatedList);
     setEditMode(false);
+    setErr('');
   };
 
   return (
@@ -72,6 +81,7 @@ const List = ({ todo, isTodo, toTodoList, toCompleted, editList, delList }) => {
             type="text"
             value={value}
           />
+          <div>{err}</div>
         </form>
       ) : null}
     </div>

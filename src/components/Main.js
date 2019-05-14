@@ -48,7 +48,7 @@ const Main = ({ todo, completed }) => {
           <LinkToHistory to="/history">Go To History</LinkToHistory>
         </h2>
       </div>
-      <Form label="Add List" type="text" />
+      <Form />
       <Type>Todo</Type>
       {renderTodoList()}
       <Type mt>Completed</Type>

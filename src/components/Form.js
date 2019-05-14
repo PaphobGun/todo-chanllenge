@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import uniqid from 'uniqid';
 
 import { calcTime } from '../utils/calcTime';
+import { isValid } from '../utils/regExp';
 
 const Outer = styled.div`
   margin: 2rem 2rem;
@@ -27,8 +28,13 @@ const Input = styled.input`
   }
 `;
 
-const Form = ({ addList, label, type }) => {
+const ErrorMsg = styled.div`
+  color: red;
+`;
+
+const Form = ({ addList }) => {
   const [list, setList] = useState('');
+  const [err, setErr] = useState('');
 
   const onSubmitAdd = e => {
     e.preventDefault();
@@ -40,20 +46,27 @@ const Form = ({ addList, label, type }) => {
       lastUpdated: calcTime()
     };
 
+    if (!isValid(list)) {
+      return setErr(
+        'Input must be Alphanumeric and cannot be empty or begin with space or more than one space between word'
+      );
+    }
+
     addList(newList);
-    // clear input field
     setList('');
+    setErr('');
   };
 
   return (
     <Outer>
       <MyForm onSubmit={onSubmitAdd}>
-        <label>{label}</label>
+        <label>Add List</label>
         <Input
           onChange={e => setList(e.target.value)}
           value={list}
-          type={type}
+          type="text"
         />
+        <ErrorMsg>{err}</ErrorMsg>
       </MyForm>
     </Outer>
   );

@@ -19,15 +19,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         todos: [...state.todos, action.payload],
-        logs: [...state.logs, action.payload]
+        logs: [action.payload, ...state.logs]
       };
-    // case TOGGLE_LIST:
-    //   return {
-    //     ...state,
-    //     todos: state.todos.filter(todo => {
-    //       return todo.id !== action.payload.id;
-    //     })
-    //   };
     case DEL_LIST:
       return {
         ...state,
@@ -37,7 +30,7 @@ export default (state = initialState, action) => {
         completed: state.completed.filter(list => {
           return list.id !== action.payload.id;
         }),
-        logs: [...state.logs, action.payload]
+        logs: [action.payload, ...state.logs]
       };
     case EDIT_LIST:
       return {
@@ -45,7 +38,7 @@ export default (state = initialState, action) => {
         todos: state.todos.map(todo => {
           return todo.id === action.payload.id ? (todo = action.payload) : todo;
         }),
-        logs: [...state.logs, action.payload]
+        logs: [action.payload, ...state.logs]
       };
     case CLEAR_LOGS:
       return { ...state, logs: [] };
@@ -56,7 +49,7 @@ export default (state = initialState, action) => {
         completed: state.completed.filter(list => {
           return list.id !== action.payload.id;
         }),
-        logs: [...state.logs, action.payload]
+        logs: [action.payload, ...state.logs]
       };
     case TO_COMPLETED:
       return {
@@ -65,7 +58,7 @@ export default (state = initialState, action) => {
           return todo.id !== action.payload.id;
         }),
         completed: [...state.completed, action.payload],
-        logs: [...state.logs, action.payload]
+        logs: [action.payload, ...state.logs]
       };
     default:
       return state;
