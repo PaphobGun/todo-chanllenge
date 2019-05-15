@@ -68,7 +68,7 @@ const List = ({
 
     // duplicate
     if (todos.filter(todo => todo.todoList === value).length > 0) {
-      return setErr('This list is already included in Todo-list');
+      return setEditMode(false);
     }
 
     // duplicate
