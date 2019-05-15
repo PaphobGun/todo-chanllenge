@@ -49,7 +49,7 @@ const History = ({ clearLogs, logs }) => {
         </h2>
       </div>
       {renderLogs(logs)}
-      <Button onClickProp={clearLogs} text="Clear History" />
+      <Button del onClickProp={clearLogs} text="Clear History" />
     </Outer>
   );
 };

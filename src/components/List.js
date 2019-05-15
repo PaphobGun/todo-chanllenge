@@ -118,6 +118,7 @@ const List = ({
       {editMode ? (
         <form onSubmit={handleOnSubmit}>
           <InputField
+            sm="toSm"
             onChangeProp={setValue}
             type="text"
             value={value}

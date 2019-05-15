@@ -1,19 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Button as AntdBtn } from 'antd';
 
-const MyButton = styled.button`
-  padding: 0.2rem 0.7rem;
-  border: 1px solid black;
-  margin-top: 1.5rem;
-  &:hover {
-    background: ${props => (props.deleteBtn ? 'red;' : 'green;')}
-    color: white;
-  }
+const MyButton = styled(AntdBtn)`
+  margin-right: 0.2rem;
 `;
 
 const Button = ({ onClickProp, text, del }) => {
   return del ? (
-    <MyButton deleteBtn onClick={onClickProp}>
+    <MyButton type="danger" onClick={onClickProp}>
       {text}
     </MyButton>
   ) : (
