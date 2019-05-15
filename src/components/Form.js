@@ -18,45 +18,47 @@ const MyForm = styled.form`
   align-items: center;
 `;
 
+const onSubmitAdd = (e, list, todos, completeds, setList, setErr, addList) => {
+  e.preventDefault();
+
+  const newList = {
+    id: uniqid(),
+    todoList: list,
+    action: 'Added to todo',
+    lastUpdated: calcTime()
+  };
+
+  // invalid
+  if (!isValid(list)) {
+    return setErr('Invalid input, Alphanumeric with no space only');
+  }
+
+  // duplicate
+  if (todos.filter(todo => todo.todoList === list).length > 0) {
+    return setErr('This list is already included in Todo-list');
+  }
+
+  // duplicate
+  if (completeds.filter(completed => completed.todoList === list).length > 0) {
+    return setErr('This list is already included in Completed-list');
+  }
+
+  addList(newList);
+  setList('');
+  setErr('');
+};
+
 const Form = ({ addList, todos, completeds }) => {
   const [list, setList] = useState('');
   const [err, setErr] = useState('');
 
-  const onSubmitAdd = e => {
-    e.preventDefault();
-
-    const newList = {
-      id: uniqid(),
-      todoList: list,
-      action: 'Added to todo',
-      lastUpdated: calcTime()
-    };
-
-    // invalid
-    if (!isValid(list)) {
-      return setErr('Invalid input, Alphanumeric with no space only');
-    }
-
-    // duplicate
-    if (todos.filter(todo => todo.todoList === list).length > 0) {
-      return setErr('This list is already included in Todo-list');
-    }
-
-    // duplicate
-    if (
-      completeds.filter(completed => completed.todoList === list).length > 0
-    ) {
-      return setErr('This list is already included in Completed-list');
-    }
-
-    addList(newList);
-    setList('');
-    setErr('');
+  const handleOnSubmit = e => {
+    onSubmitAdd(e, list, todos, completeds, setList, setErr, addList);
   };
 
   return (
     <Outer>
-      <MyForm onSubmit={onSubmitAdd}>
+      <MyForm onSubmit={handleOnSubmit}>
         <InputField
           label="Add List"
           onChangeProp={setList}

@@ -7,6 +7,44 @@ import { isValid } from '../utils/regExp';
 import InputField from './InputField';
 import Button from './Button';
 
+const onSubmitEdit = (
+  e,
+  value,
+  todos,
+  completeds,
+  setEditMode,
+  setErr,
+  editList,
+  todo
+) => {
+  e.preventDefault();
+  const updatedList = {
+    ...todo,
+    todoList: value,
+    action: 'Edited form ' + todo.todoList,
+    lastUpdated: calcTime()
+  };
+
+  // invalid
+  if (!isValid(value)) {
+    return setErr('Invalid input, Alphanumeric with no space only');
+  }
+
+  // duplicate
+  if (todos.filter(todo => todo.todoList === value).length > 0) {
+    return setErr('This list is already included in Todo-list');
+  }
+
+  // duplicate
+  if (completeds.filter(completed => completed.todoList === value).length > 0) {
+    return setErr('This list is already included in Completed-list');
+  }
+
+  editList(updatedList);
+  setEditMode(false);
+  setErr('');
+};
+
 const List = ({
   todo,
   isTodo,
@@ -52,35 +90,17 @@ const List = ({
     setEditMode(!editMode);
   };
 
-  const onSubmitEdit = e => {
-    e.preventDefault();
-    const updatedList = {
-      ...todo,
-      todoList: value,
-      action: 'Edited form ' + todo.todoList,
-      lastUpdated: calcTime()
-    };
-
-    // invalid
-    if (!isValid(value)) {
-      return setErr('Invalid input, Alphanumeric with no space only');
-    }
-
-    // duplicate
-    if (todos.filter(todo => todo.todoList === value).length > 0) {
-      return setErr('This list is already included in Todo-list');
-    }
-
-    // duplicate
-    if (
-      completeds.filter(completed => completed.todoList === value).length > 0
-    ) {
-      return setErr('This list is already included in Completed-list');
-    }
-
-    editList(updatedList);
-    setEditMode(false);
-    setErr('');
+  const handleOnSubmit = e => {
+    onSubmitEdit(
+      e,
+      value,
+      todos,
+      completeds,
+      setEditMode,
+      setErr,
+      editList,
+      todo
+    );
   };
 
   return (
@@ -96,7 +116,7 @@ const List = ({
       )}
       <Button onClickProp={deleteList} del text="Delete" />
       {editMode ? (
-        <form onSubmit={onSubmitEdit}>
+        <form onSubmit={handleOnSubmit}>
           <InputField
             onChangeProp={setValue}
             type="text"
