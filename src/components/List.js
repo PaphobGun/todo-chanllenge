@@ -90,6 +90,7 @@ const List = ({
     setEditMode(!editMode);
   };
 
+<<<<<<< HEAD
   const handleOnSubmit = e => {
     onSubmitEdit(
       e,
@@ -101,6 +102,37 @@ const List = ({
       editList,
       todo
     );
+=======
+  const onSubmitEdit = e => {
+    e.preventDefault();
+    const updatedList = {
+      ...todo,
+      todoList: value,
+      action: 'Edited form ' + todo.todoList,
+      lastUpdated: calcTime()
+    };
+
+    // invalid
+    if (!isValid(value)) {
+      return setErr('Invalid input, Alphanumeric with no space only');
+    }
+
+    // duplicate
+    if (todos.filter(todo => todo.todoList === value).length > 0) {
+      return setEditMode(false);
+    }
+
+    // duplicate
+    if (
+      completeds.filter(completed => completed.todoList === value).length > 0
+    ) {
+      return setErr('This list is already included in Completed-list');
+    }
+
+    editList(updatedList);
+    setEditMode(false);
+    setErr('');
+>>>>>>> resuable-component
   };
 
   return (
