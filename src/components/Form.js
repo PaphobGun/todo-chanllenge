@@ -4,6 +4,7 @@ import { addList } from '../actions';
 import styled from 'styled-components';
 import uniqid from 'uniqid';
 
+import InputField from './InputField';
 import { calcTime } from '../utils/calcTime';
 import { isValid } from '../utils/regExp';
 
@@ -15,21 +16,6 @@ const MyForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  border-radius: 5px;
-  width: 30%;
-  outline: none;
-  &:focus {
-    border: 2px solid green;
-  }
-`;
-
-const ErrorMsg = styled.div`
-  color: red;
 `;
 
 const Form = ({ addList, todos, completeds }) => {
@@ -71,13 +57,13 @@ const Form = ({ addList, todos, completeds }) => {
   return (
     <Outer>
       <MyForm onSubmit={onSubmitAdd}>
-        <label>Add List</label>
-        <Input
-          onChange={e => setList(e.target.value)}
+        <InputField
+          label="Add List"
+          onChangeProp={setList}
           value={list}
           type="text"
+          err={err}
         />
-        <ErrorMsg>{err}</ErrorMsg>
       </MyForm>
     </Outer>
   );

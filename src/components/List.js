@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { editList, delList, toTodoList, toCompleted } from '../actions';
 import { calcTime } from '../utils/calcTime';
 import { isValid } from '../utils/regExp';
+import InputField from './InputField';
 import Button from './Button';
 
 const List = ({
@@ -47,7 +48,6 @@ const List = ({
     delList(deletedList);
   };
 
-  // testtttttttttttttttttttttt
   const toggleEdit = () => {
     setEditMode(!editMode);
   };
@@ -97,12 +97,12 @@ const List = ({
       <Button onClickProp={deleteList} del text="Delete" />
       {editMode ? (
         <form onSubmit={onSubmitEdit}>
-          <input
-            onChange={e => setValue(e.target.value)}
+          <InputField
+            onChangeProp={setValue}
             type="text"
             value={value}
+            err={err}
           />
-          <div>{err}</div>
         </form>
       ) : null}
     </div>
