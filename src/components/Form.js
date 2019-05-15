@@ -32,7 +32,7 @@ const ErrorMsg = styled.div`
   color: red;
 `;
 
-const Form = ({ addList }) => {
+const Form = ({ addList, todos, completeds }) => {
   const [list, setList] = useState('');
   const [err, setErr] = useState('');
 
@@ -46,10 +46,21 @@ const Form = ({ addList }) => {
       lastUpdated: calcTime()
     };
 
+    // invalid
     if (!isValid(list)) {
-      return setErr(
-        'Input must be Alphanumeric and cannot be empty or begin with space or more than one space between word'
-      );
+      return setErr('Invalid input, Alphanumeric with no space only');
+    }
+
+    // duplicate
+    if (todos.filter(todo => todo.todoList === list).length > 0) {
+      return setErr('This list is already included in Todo-list');
+    }
+
+    // duplicate
+    if (
+      completeds.filter(completed => completed.todoList === list).length > 0
+    ) {
+      return setErr('This list is already included in Completed-list');
     }
 
     addList(newList);
@@ -74,7 +85,8 @@ const Form = ({ addList }) => {
 
 const mapStateToProps = state => {
   return {
-    todos: state.todo.todos
+    todos: state.todo.todos,
+    completeds: state.todo.completed
   };
 };
 

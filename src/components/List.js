@@ -6,7 +6,16 @@ import { calcTime } from '../utils/calcTime';
 import { isValid } from '../utils/regExp';
 import Button from './Button';
 
-const List = ({ todo, isTodo, toTodoList, toCompleted, editList, delList }) => {
+const List = ({
+  todo,
+  isTodo,
+  toTodoList,
+  toCompleted,
+  editList,
+  delList,
+  todos,
+  completeds
+}) => {
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(todo.todoList);
   const [err, setErr] = useState('');
@@ -51,10 +60,21 @@ const List = ({ todo, isTodo, toTodoList, toCompleted, editList, delList }) => {
       lastUpdated: calcTime()
     };
 
+    // invalid
     if (!isValid(value)) {
-      return setErr(
-        'Input must be Alphanumeric and cannot be empty or begin with space or more than one space between word'
-      );
+      return setErr('Invalid input, Alphanumeric with no space only');
+    }
+
+    // duplicate
+    if (todos.filter(todo => todo.todoList === value).length > 0) {
+      return setErr('This list is already included in Todo-list');
+    }
+
+    // duplicate
+    if (
+      completeds.filter(completed => completed.todoList === value).length > 0
+    ) {
+      return setErr('This list is already included in Completed-list');
     }
 
     editList(updatedList);
@@ -88,7 +108,14 @@ const List = ({ todo, isTodo, toTodoList, toCompleted, editList, delList }) => {
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    todos: state.todo.todos,
+    completeds: state.todo.completed
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { editList, delList, toTodoList, toCompleted }
 )(List);
